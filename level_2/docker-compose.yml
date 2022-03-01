@@ -1,0 +1,15 @@
+version: "2" 
+services:
+  genki-timescale-db:
+    image: "timescale/timescaledb:latest-pg12" 
+    ports:
+      - "5432:5432" 
+    restart: always
+    volumes:
+      - /data_disk/database/:/var/lib/postgresql/data
+    env_file:
+      - .env
+    ulimits:
+      core:
+        hard: 0
+        soft: 0
