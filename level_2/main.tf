@@ -49,3 +49,11 @@ module "myapp-server" {
   avail_zone = var.avail_zone
   private_key_location = var.private_key_location
 }
+
+module "myapp-ebs" {
+  source = "./modules/ebs"
+  aws_instance_id = module.myapp-server.instance_id
+  avail_zone = var.avail_zone
+  snapshot_id = var.snapshot_id
+  target_tag = var.target_tag
+}

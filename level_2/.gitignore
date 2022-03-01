@@ -1,3 +1,10 @@
 .env
 thtainopass
 thtainopass.pub
+*.tfvars
+output.txt
+*.hcl
+providers
+modules
+*.tfstate
+terraform.tfvars
