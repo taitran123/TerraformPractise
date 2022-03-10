@@ -5,6 +5,5 @@ thtainopass.pub
 output.txt
 *.hcl
 providers
-modules
 *.tfstate
 terraform.tfvars
