@@ -1,0 +1,32 @@
+sudo kubeadm init --apiserver-advertise-address=172.26.8.176 --pod-network-cidr=172.26.0.0/16 --apiserver-cert-extra-sans=54.169.247.15
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+  kubectl create -f https://projectcalico.docs.tigera.io/manifests/tigera-operator.yaml
+
+
+#Dung cai nay hay hon
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+
+===============
+kubeadm token create --print-join-command
+
+sudo hostnamectl set-hostname master
+sudo hostnamectl set-hostname worker1
+sudo hostnamectl set-hostname worker2
+
+cat >> /etc/hosts <<EOF
+
+172.26.8.176 master
+172.26.15.137 worker1
+172.26.14.17 worker2
+
+EOF
+
+export KUBECONFIG=$HOME/.kube/config
+
+
