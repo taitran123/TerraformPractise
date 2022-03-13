@@ -1,0 +1,9 @@
+.env
+thtainopass
+thtainopass.pub
+*.tfvars
+output.txt
+*.hcl
+providers
+*.tfstate
+terraform.tfvars

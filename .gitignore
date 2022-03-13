@@ -4,3 +4,7 @@ level_2/thtainopass.pub
 level_2/output.txt
 level_2/terraform.tfvars
 level_2/terraform.tfvars
+level_4/terraform.tfstate.backup
+level_4/.terraform/modules/modules.json
+level_4/dashboard.yml
+level_4/kubectl
