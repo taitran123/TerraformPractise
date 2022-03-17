@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app3
+  labels:
+    name: ungdung3
+    app: app3
+    env: dev
+spec:
+  containers:
+  - name: c1
+    image: ichte/coretools
+    resources: {}
+    command: ["/bin/bash"]
+    args: ["-c", "while true; do echo 'busybox running'; sleep 10;done"]
