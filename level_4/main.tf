@@ -62,6 +62,18 @@ resource "aws_lightsail_instance_public_ports" "k8s" {
     to_port   = 22
   }
 
+  port_info {
+    protocol  = "tcp"
+    from_port = 4443
+    to_port   = 4443
+  }
+
+  port_info {
+    protocol  = "tcp"
+    from_port = 443
+    to_port   = 443
+  }
+
 }
 
 
@@ -107,6 +119,18 @@ resource "aws_lightsail_instance_public_ports" "k8s-worker-1" {
     protocol  = "tcp"
     from_port = 22
     to_port   = 22
+  }
+
+   port_info {
+    protocol  = "tcp"
+    from_port = 4443
+    to_port   = 4443
+  }
+
+   port_info {
+    protocol  = "tcp"
+    from_port = 443
+    to_port   = 443
   }
 
 }
@@ -156,6 +180,18 @@ resource "aws_lightsail_instance_public_ports" "k8s-worker-2" {
     from_port = 10257
     to_port   = 10257
   }
+
+   port_info {
+    protocol  = "tcp"
+    from_port = 4443
+    to_port   = 4443
+  }
+
+   port_info {
+    protocol  = "tcp"
+    from_port = 443
+    to_port   = 443
+  }
 }
 
 resource "aws_lightsail_instance" "master_instance" {
@@ -189,7 +225,7 @@ resource "aws_lightsail_instance" "worker_2" {
   name              = "${var.env_prefix}-work-2_instance"
   availability_zone = var.avail_zone
   key_pair_name     = aws_lightsail_key_pair.thtai_key_pair.name
-  bundle_id = var.node_bundle_id
+  bundle_id = var.master_bundle_id
   blueprint_id = var.blueprint_id
   tags = {
     Name = "worker",
