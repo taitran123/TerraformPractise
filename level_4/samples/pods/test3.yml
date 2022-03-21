@@ -8,7 +8,7 @@ metadata:
     env: dev
 spec:
   containers:
-  - name: c1
+  - name: tools
     image: ichte/coretools
     resources: {}
     command: ["/bin/bash"]

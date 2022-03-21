@@ -1,11 +1,9 @@
-sudo kubeadm init --apiserver-advertise-address=172.26.2.2 --pod-network-cidr=172.26.0.0/16 --apiserver-cert-extra-sans=13.229.243.253
+sudo kubeadm init --apiserver-advertise-address=172.26.7.96 --pod-network-cidr=10.1.0.0/16 --apiserver-cert-extra-sans=122.248.231.178
 
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-
-  kubectl create -f https://projectcalico.docs.tigera.io/manifests/tigera-operator.yaml
 
 
 #Dung cai nay hay hon
@@ -21,9 +19,9 @@ sudo hostnamectl set-hostname worker2
 
 cat >> /etc/hosts <<EOF
 
-172.26.2.2 master
-172.26.1.106 worker1
-172.26.12.144 worker2
+172.26.7.96 master
+172.26.6.250 worker1
+172.26.8.176 worker2
 
 EOF
 
@@ -32,17 +30,8 @@ export KUBECONFIG=$HOME/.kube/config
 
 kubectl apply -f https://docs.projectcalico.org/v3.8/manifests/canal.yaml
 
-https://github.com/kubernetes-sigs/metrics-server/issues/278   #!!!!!!important
 
-
-
-
-Normal   Scheduled  2m38s                default-scheduler  Successfully assigned kube-system/metrics-server-7cf8b65d65-m8t75 to worker2
-  Normal   Pulling    2m37s                kubelet            Pulling image "k8s.gcr.io/metrics-server/metrics-server:v0.6.1"
-  Normal   Pulled     2m35s                kubelet            Successfully pulled image "k8s.gcr.io/metrics-server/metrics-server:v0.6.1" in 2.356900413s
-  Normal   Killing    97s (x2 over 2m7s)   kubelet            Container metrics-server failed liveness probe, will be restarted
-  Normal   Created    91s (x3 over 2m33s)  kubelet            Created container metrics-server
-  Normal   Started    91s (x3 over 2m33s)  kubelet            Started container metrics-server
-  Normal   Pulled     91s (x2 over 2m2s)   kubelet            Container image "k8s.gcr.io/metrics-server/metrics-server:v0.6.1" already present on machine
-  Warning  Unhealthy  77s (x8 over 2m27s)  kubelet            Liveness probe failed: Get "https://172.26.2.2:4443/livez": net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
-  Warning  Unhealthy  67s (x5 over 2m7s)   kubelet            Readiness probe failed: Get "https://172.26.2.2:4443/readyz":readyz  net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
+sudo iptables -P INPUT ACCEPT
+sudo iptables -P FORWARD ACCEPT
+sudo iptables -P OUTPUT ACCEPT
+sudo iptables -F

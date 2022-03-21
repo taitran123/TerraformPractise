@@ -72,6 +72,9 @@ EOF
 
 
 
+#To make it survive reboots enter:
+sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux 
+
 sudo yum install -y kubelet kubeadm kubectl
 sudo systemctl enable --now kubelet
 
@@ -80,6 +83,13 @@ cat >>/etc/NetworkManager/conf.d/calico.conf<<EOF
 [keyfile]
 unmanaged-devices=interface-name:cali*;interface-name:tunl*
 EOF
+
+sudo iptables -P FORWARD ACCEPT
+sudo iptables -P INPUT ACCEPT
+sudo iptables -P OUTPUT ACCEPT
+sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+sudo systemctl restart docker
+sudo systemctl restart kubelet
 
 sudo kubeadm reset
 sudo systemctl restart docker
