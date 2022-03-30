@@ -1,0 +1,42 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  config.vm.box = "centos/8"
+
+  ssh_pub_key = File.readlines("/home/thtai/SourceCode/TerraformPractise/level_4/thtainopass.pub").first.strip
+  # config.vm.provision 'shell', inline: 'mkdir -p /root/.ssh'
+  # config.vm.provision 'shell', inline: "echo #{ssh_pub_key} >> /root/.ssh/authorized_keys"
+  # config.vm.provision 'shell', inline: "echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys", privileged: false
+
+  config.vm.network "private_network", ip: "192.168.56.7"   # Lập IP cho máy ảo
+  config.vm.hostname = "worker2"
+  config.vm.provision "shell", path: "../centos8-init-kube.sh"
+  
+  $script = <<SCRIPT
+  mkdir -p /root/.ssh
+  echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
+  echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+  cat >>/etc/hosts<<EOF
+  192.168.56.5 master
+  192.168.56.6 worker1
+  192.168.56.7 worker2
+EOF
+SCRIPT
+# https://stackoverflow.com/questions/69722254/vagrant-up-failing-for-virtualbox-provider-with-e-accessdenied-on-host-only-netw
+
+  config.vm.provision "shell",inline: $script
+
+
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    vb.name = "vm-worker2"                    
+    vb.cpus = 1  
+    # Customize the amount of memory on the VM:
+    vb.memory = "2048"
+  end
+end

@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: cluster-svc2
+  name: svc1
 spec:
   selector:
-    app: cluster
-  type: ClusterIP
+    app: app1
+  type: NodePort
   ports:
   - protocol: TCP
     port: 80
     targetPort: 80
+    nodePort: 31080

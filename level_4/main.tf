@@ -43,7 +43,7 @@ resource "aws_lightsail_instance" "master_instance" {
     Name = "master",
     env = var.env_prefix
   }
-  user_data = file("centos8-init-kube.sh")
+  user_data = file(var.entry_file)
 }
 
 resource "aws_lightsail_instance" "worker_1" {
@@ -56,7 +56,7 @@ resource "aws_lightsail_instance" "worker_1" {
     Name = "worker",
     env = var.env_prefix
   }
-  user_data = file("centos8-init-kube.sh")
+  user_data = file(var.entry_file)
 }
 
 
@@ -70,6 +70,6 @@ resource "aws_lightsail_instance" "worker_2" {
     Name = "worker",
     env = var.env_prefix
   }
-  user_data = file("centos8-init-kube.sh")
+  user_data = file(var.entry_file)
 }
 

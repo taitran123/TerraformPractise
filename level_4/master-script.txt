@@ -1,5 +1,4 @@
-sudo kubeadm init --apiserver-advertise-address=172.26.7.96 --pod-network-cidr=10.1.0.0/16 --apiserver-cert-extra-sans=122.248.231.178
-
+sudo kubeadm init --apiserver-advertise-address=192.168.56.5 --pod-network-cidr=10.1.0.0/16 --apiserver-cert-extra-sans=192.168.1.7
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
@@ -7,7 +6,7 @@ sudo kubeadm init --apiserver-advertise-address=172.26.7.96 --pod-network-cidr=1
 
 
 #Dung cai nay hay hon
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml 
 
 
 ===============
@@ -19,9 +18,9 @@ sudo hostnamectl set-hostname worker2
 
 cat >> /etc/hosts <<EOF
 
-172.26.7.96 master
-172.26.6.250 worker1
-172.26.8.176 worker2
+172.26.12.84 master
+172.26.11.206 worker1
+172.26.13.4 worker2
 
 EOF
 

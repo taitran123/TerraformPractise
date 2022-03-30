@@ -1,11 +1,21 @@
 #!/bin/bash
 
-cd /etc/yum.repos.d/
-sudo sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
-sudo sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+sudo sed -e 's!^#baseurl=!baseurl=!g' \
+       -e  's!^mirrorlist=!#mirrorlist=!g' \
+       -e 's!mirror.centos.org!mirrors.ustc.edu.cn!g' \
+       -i  /etc/yum.repos.d/CentOS-Base.repo
+
+sudo yum install -y epel-release
+sudo sed -e 's!^mirrorlist=!#mirrorlist=!g' \
+	-e 's!^#baseurl=!baseurl=!g' \
+	-e 's!^metalink!#metalink!g' \
+	-e 's!//download\.fedoraproject\.org/pub!//mirrors.ustc.edu.cn!g' \
+	-e 's!http://mirrors\.ustc!https://mirrors.ustc!g' \
+	-i /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel-testing.repo
+
 # sudo yum update -y
 
-# sudo yum install -y yum-utils
+sudo yum install -y yum-utils
 sudo yum-config-manager \
     --add-repo \
     https://download.docker.com/linux/centos/docker-ce.repo
@@ -15,7 +25,7 @@ sudo yum install -y docker-ce docker-ce-cli containerd.io
 
 sudo usermod -aG docker $(whoami)
 ## Create /etc/docker directory.
-sudo mkdir /etc/docker
+mkdir /etc/docker
 
 # Setup daemon.
 cat > /etc/docker/daemon.json <<EOF
@@ -88,5 +98,7 @@ sudo systemctl enable --now kubelet
 # sudo iptables -P INPUT ACCEPT
 # sudo iptables -P OUTPUT ACCEPT
 # sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+# sudo systemctl restart docker
+# sudo systemctl restart kubelet
+
 sudo systemctl restart docker
-sudo systemctl restart kubelet

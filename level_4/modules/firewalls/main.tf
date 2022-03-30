@@ -25,6 +25,12 @@ resource "aws_lightsail_instance_public_ports" "k8s-worker-1" {
     to_port   = 10259
   }
 
+  port_info {
+    protocol  = "tcp"
+    from_port = 30000
+    to_port   = 32767
+  }
+
     port_info {
     protocol  = "tcp"
     from_port = 22

@@ -11,3 +11,4 @@ variable worker_prefix {}
 variable master_private_ip {}
 variable worker_1_private_ip {}
 variable worker_2_private_ip {}
+variable entry_file {}
